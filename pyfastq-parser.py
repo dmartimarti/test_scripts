@@ -40,7 +40,7 @@ for record in SeqIO.parse(args.input,
 output_number = 1
 
 while (output_number - 1) < args.n:
-	my_randoms = random.sample(xrange(230), args.seqs)
+	my_randoms = random.sample(xrange(len(original_fastq_list) - 1), args.seqs)
 	w = open('rand_output_' + str(output_number) + '.fastq', "w")
 	for i in my_randoms:
 		w.write(str(original_fastq_list[i]))
