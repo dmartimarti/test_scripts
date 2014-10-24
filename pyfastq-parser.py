@@ -39,7 +39,7 @@ for record in SeqIO.parse(args.input,
 
 output_number = 1
 
-while (output_number - 1) < args.nout:
+while (output_number - 1) < args.n:
 	my_randoms = random.sample(xrange(230), args.seqs)
 	w = open('rand_output_' + str(output_number) + '.fastq', "w")
 	for i in my_randoms:
@@ -48,6 +48,5 @@ while (output_number - 1) < args.nout:
 
 
 # TO DO:
-# - chose file
 # - output also some simple statistical values (average nt count, std, 
 #	distribution?)
