@@ -1,5 +1,6 @@
 
 ## operate with excel files 
+# version 0.0.3
 
 # in order to get easyGplot2, use this command lines
 install.packages("devtools")
