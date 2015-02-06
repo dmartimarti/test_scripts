@@ -19,33 +19,29 @@ if(_devflag):
     print('\n>>> WARNING! THIS IS JUST A DEVELOPMENT SUBRELEASE.' + 
           ' USE IT AT YOUR OWN RISK!')  
 
-file_name = "animal_total.xlsx"
+file_name = "MPHM.xlsx"
 
 xl_file = pd.ExcelFile(file_name)
 
-dfs = {sheet_name: xl_file.parse(sheet_name) 
+dfs = {sheet_name: xl_file.parse(sheet_name)
 	for sheet_name in xl_file.sheet_names}
-
-
-taxa = dfs["animal_2"].iloc[:,0] # taxa names , second number is the column index
-t_4 = dfs["animal_2"].iloc[:,1]
 
 # slow slmode version (as R script)
 
 def slmode(size, output):
 	writer = ExcelWriter(output)
-	columnas = dfs["animal_2"].columns # store columns names
-	length = len(dfs["animal_2"].columns)
-	new_df = pd.DataFrame(dfs["animal_2"].iloc[:,0])
+	columnas = dfs["h_male_feces"].columns # store columns names
+	length = len(dfs["h_male_feces"].columns)
+	new_df = pd.DataFrame(dfs["h_male_feces"].iloc[:,0])
 	for i in range(1,length-(size-1)):
 		for j in range(0,(size)):
-			new_df[str(columnas[j+i])] = dfs["animal_2"].iloc[:,j+i]
+			new_df[str(columnas[j+i])] = dfs["h_male_feces"].iloc[:,j+i]
 		new_df.to_excel(writer,"set " + str(i), index=False)
-		new_df = pd.DataFrame(dfs["animal_2"].iloc[:,0])
+		new_df = pd.DataFrame(dfs["h_male_feces"].iloc[:,0])
 	writer.save()
 
 
-slmode(4, "sltest.xlsx")
+slmode(4, "male_feces_test.xlsx")
 
 
 
