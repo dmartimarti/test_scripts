@@ -4,9 +4,10 @@
 
 import pandas as pd 
 from pandas import ExcelWriter
+import argparse
 
 # py_slidingWindow_xlsx release information
-__version__ = '0.0.1'
+__version__ = '0.0.3'
 _verdata = 'Feb 2015'
 _devflag = True
 
@@ -20,10 +21,17 @@ if(_devflag):
     print('\n>>> WARNING! THIS IS JUST A DEVELOPMENT SUBRELEASE.' + 
           ' USE IT AT YOUR OWN RISK!')  
 
-file_name = "IBS.xlsx"
 
+# flags
+parser = argparse.ArgumentParser()
+parser.add_argument('-i','-input', help="input file", type=str)
+parser.add_argument('-s', '-size', help='set the window size', 
+	type=int, default=5)
+args = parser.parse_args()
+
+
+file_name = args.i
 xl_file = pd.ExcelFile(file_name)
-
 dfs = {sheet_name: xl_file.parse(sheet_name)
 	for sheet_name in xl_file.sheet_names}
 
@@ -37,18 +45,18 @@ def slmode(sheet, size):
 	for i in range(1,length-(size-1)):
 		for j in range(0,(size)):
 			new_df[str(columnas[j+i])] = dfs[str(sheet)].iloc[:,j+i]
-		new_df.to_excel(writer,str(sheet) + "set " + str(i), index=False)
+		new_df.to_excel(writer,"set_" + str(i), index=False)
 		new_df = pd.DataFrame(dfs[str(sheet)].iloc[:,0])
 	writer.save()
 
 def sw_authomatic_mode():
 	sheets = xl_file.sheet_names
 	for name in sheets:
-		slmode(name, 5)
+		print "processing sheet ", name
+		slmode(name, args.s)
+		print name, "finished!"
 
 sw_authomatic_mode()
-
-
 
 ###############
 ##  TO DO:
